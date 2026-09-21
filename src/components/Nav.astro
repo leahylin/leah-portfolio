@@ -1,0 +1,53 @@
+---
+import { site } from "../data/site";
+---
+
+<header id="nav">
+  <a href="/" class="wordmark">{site.name}</a>
+  <nav>
+    <a href="/projects">Work</a>
+    <a href="/about">About</a>
+    <a href={site.links.resume}>Resume ↗</a>
+    <a href="/#connect">Contact</a>
+  </nav>
+</header>
+
+<style>
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 18px var(--pad);
+    background: transparent;
+    border-bottom: 1px solid transparent;
+    transition: background 0.35s ease, border-color 0.35s ease, backdrop-filter 0.35s ease;
+  }
+
+  header.is-stuck {
+    background: oklch(0.985 0.002 100 / 0.82);
+    backdrop-filter: blur(12px);
+    border-bottom-color: var(--rule);
+  }
+
+  .wordmark {
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  nav {
+    display: flex;
+    gap: clamp(14px, 3vw, 32px);
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+  }
+</style>

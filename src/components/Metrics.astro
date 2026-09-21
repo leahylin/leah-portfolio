@@ -1,0 +1,50 @@
+---
+import { counters } from "../data/site";
+---
+
+<section class="metrics">
+  <div class="mono label">Project metrics</div>
+  <div class="grid">
+    {
+      counters.map((c) => (
+        <div>
+          <div
+            class="value"
+            data-count={c.to}
+            data-count-decimals={c.decimals}
+            data-count-suffix={c.suffix}
+          >
+            {c.to.toFixed(c.decimals)}{c.suffix}
+          </div>
+          <div class="mono caption">{c.label}</div>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .metrics {
+    background: var(--ink);
+    color: oklch(0.96 0.002 100);
+    padding: clamp(44px, 7vw, 92px) var(--pad);
+  }
+
+  .label { letter-spacing: 0.2em; color: oklch(0.72 0.003 100); }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: clamp(24px, 4vw, 56px);
+    margin-top: clamp(26px, 4vw, 48px);
+  }
+
+  .value {
+    font-family: var(--mono);
+    font-size: clamp(30px, 4.4vw, 58px);
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  .caption { margin-top: 12px; color: oklch(0.72 0.003 100); }
+</style>

@@ -1,0 +1,63 @@
+.demo .intro {
+  margin: 0 0 22px;
+  font-size: 16px;
+  line-height: 1.6;
+  font-weight: 300;
+  color: oklch(0.34 0.004 100);
+  max-width: 34em;
+}
+
+.demo label { display: block; margin-bottom: 10px; }
+
+.demo textarea {
+  width: 100%;
+  min-height: 120px;
+  resize: vertical;
+  padding: 16px;
+  border: 1px solid var(--rule-2);
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.55;
+  font-weight: 300;
+}
+
+.demo .count { margin-top: 8px; font-family: var(--mono); font-size: 11px; color: var(--ink-3); }
+
+.demo .temp {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  margin-top: 26px;
+}
+
+.demo .temp input { flex: 1 1 200px; max-width: 280px; accent-color: var(--ink); }
+.demo .temp .value { font-family: var(--mono); font-size: 13px; min-width: 3em; }
+
+.demo button { margin-top: 26px; border: none; }
+.demo button:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.demo .error {
+  margin-top: 22px;
+  padding: 16px;
+  border: 1px solid var(--rule-2);
+  font-family: var(--mono);
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: oklch(0.34 0.004 100);
+}
+
+.demo .out { margin-top: 28px; }
+.demo .out > .mono { margin-bottom: 12px; }
+
+.demo .story {
+  padding: 22px;
+  border: 1px solid var(--rule);
+  background: var(--paper-2);
+  font-size: 16.5px;
+  line-height: 1.7;
+  font-weight: 300;
+  text-wrap: pretty;
+}

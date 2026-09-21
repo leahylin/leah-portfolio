@@ -1,0 +1,33 @@
+---
+import { skills } from "../data/site";
+---
+
+<section class="section">
+  <h2 data-reveal>Skills</h2>
+  <div class="body groups">
+    {
+      skills.map((s) => (
+        <div class="group" data-reveal>
+          <div class="mono name">{s.group}</div>
+          <div class="chips">
+            {s.items.map((i) => <span class="chip">{i}</span>)}
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .groups { display: grid; gap: 26px; }
+
+  .group {
+    display: grid;
+    grid-template-columns: minmax(0, 150px) minmax(0, 1fr);
+    gap: clamp(14px, 2vw, 28px);
+    align-items: start;
+  }
+
+  .name { padding-top: 7px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+</style>

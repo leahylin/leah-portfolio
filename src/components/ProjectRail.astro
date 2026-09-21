@@ -1,0 +1,154 @@
+---
+import { getCollection } from "astro:content";
+
+const entries = (await getCollection("projects")).sort(
+  (a, b) => a.data.order - b.data.order
+);
+---
+
+<div id="work" data-hscroll>
+  <div class="stage">
+    <div class="head">
+      <h2>Selected Work</h2>
+      <p>Projects across language models, generative models, planning and computer vision.</p>
+    </div>
+
+    <div class="track" data-hscroll-track>
+      {
+        entries.map((entry) => (
+          <a class="card" href={`/projects/${entry.slug}`}>
+            <div class="top mono">
+              <span>{entry.data.number} · {entry.data.kind}</span>
+              <span class="badges">
+                {entry.data.demo && <span class="badge">Live demo</span>}
+                <span>→</span>
+              </span>
+            </div>
+            <div>
+              <h3>{entry.data.title}</h3>
+              <div class="sub">{entry.data.subtitle}</div>
+              <p class="short">{entry.data.short}</p>
+            </div>
+            <div>
+              <div class="metric">{entry.data.metricLine}</div>
+              <div class="tags">{entry.data.tags.join(" · ")}</div>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+
+    <div class="progress mono">
+      <span>Scroll</span>
+      <span class="bar"><span data-hscroll-bar></span></span>
+      <span data-hscroll-count>01 / {String(entries.length).padStart(2, "0")}</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  [data-hscroll] { position: relative; height: 380vh; border-top: 1px solid var(--rule); }
+
+  .stage {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: clamp(20px, 3vh, 40px);
+    overflow: hidden;
+    background: var(--paper);
+  }
+
+  .head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 0 var(--pad);
+  }
+
+  .head h2 {
+    margin: 0;
+    font-size: clamp(24px, 3.2vw, 42px);
+    font-weight: 500;
+    letter-spacing: -0.025em;
+  }
+
+  .head p {
+    margin: 0;
+    max-width: 28em;
+    font-size: 14px;
+    line-height: 1.55;
+    font-weight: 300;
+    color: var(--ink-2);
+  }
+
+  .track {
+    display: flex;
+    gap: clamp(16px, 2vw, 28px);
+    padding: 0 var(--pad);
+    will-change: transform;
+  }
+
+  .card {
+    flex: 0 0 min(80vw, 480px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: clamp(20px, 4vh, 44px);
+    min-height: min(58vh, 460px);
+    padding: clamp(22px, 3vw, 34px);
+    border: 1px solid var(--rule);
+    transition: background 0.3s ease, border-color 0.3s ease;
+  }
+
+  .card:hover { background: oklch(0.955 0.002 100); border-color: oklch(0.72 0.003 100); }
+
+  .top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    letter-spacing: 0.18em;
+  }
+
+  .badges { display: flex; align-items: center; gap: 12px; }
+  .badge { padding: 4px 9px; border: 1px solid var(--ink); color: var(--ink); }
+
+  h3 {
+    margin: 0;
+    font-size: clamp(24px, 2.8vw, 36px);
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    line-height: 1.08;
+    text-wrap: balance;
+  }
+
+  .sub { margin-top: 10px; font-size: 15px; font-weight: 300; color: var(--ink-2); line-height: 1.45; }
+
+  .short {
+    margin: 16px 0 0;
+    font-size: 14.5px;
+    line-height: 1.6;
+    font-weight: 300;
+    color: oklch(0.34 0.004 100);
+    text-wrap: pretty;
+  }
+
+  .metric { font-family: var(--mono); font-size: 13px; color: var(--ink); line-height: 1.6; }
+  .tags { margin-top: 10px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; color: var(--ink-3); }
+
+  .progress {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 0 var(--pad);
+    letter-spacing: 0.18em;
+  }
+
+  .bar { flex: 1 1 auto; max-width: 320px; height: 1px; background: var(--rule); position: relative; }
+  .bar > span { position: absolute; inset: 0 auto 0 0; width: 0%; background: var(--ink); }
+</style>

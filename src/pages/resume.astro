@@ -1,0 +1,30 @@
+---
+import Base from "../layouts/Base.astro";
+import { site } from "../data/site";
+---
+
+<Base title="Resume — Leah Lin">
+  <section>
+    <h1>Resume</h1>
+    <p>Download the current PDF, or view the web version on the about page.</p>
+    <div class="actions">
+      <a class="btn btn--solid" href={site.links.resume}>Download PDF ↗</a>
+      <a class="btn" href="/about">About page</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  section { padding: clamp(40px, 7vw, 100px) var(--pad) clamp(60px, 9vw, 120px); }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(34px, 6vw, 76px);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  p { margin: 20px 0 0; max-width: 30em; font-size: 16px; line-height: 1.6; font-weight: 300; color: var(--ink-2); }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 32px; }
+</style>

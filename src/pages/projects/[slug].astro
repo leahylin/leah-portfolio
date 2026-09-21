@@ -1,0 +1,248 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import StoryGenerator from "../../components/StoryGenerator";
+import "../../components/StoryGenerator.css";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("projects");
+  const sorted = entries.sort((a, b) => a.data.order - b.data.order);
+  return sorted.map((entry, i) => ({
+    params: { slug: entry.slug },
+    props: { entry, next: sorted[(i + 1) % sorted.length] },
+  }));
+}
+
+const { entry, next } = Astro.props;
+const p = entry.data;
+const { Content } = await entry.render();
+---
+
+<Base title={`${p.title} — Leah Lin`} description={p.subtitle}>
+  <article>
+    <a class="back mono" href="/projects">← Back to work</a>
+
+    <header>
+      <div class="mono eyebrow">
+        <span>{p.number} · {p.kind}</span>
+        {p.demo && <span class="badge">Live demo</span>}
+      </div>
+      <h1>{p.title}</h1>
+      <p class="sub">{p.subtitle}</p>
+    </header>
+
+    <div class="actions">
+      <a class="btn btn--solid" href={p.github}>View source code ↗</a>
+      {p.huggingface && <a class="btn" href={p.huggingface}>View on Hugging Face ↗</a>}
+    </div>
+
+    <div class="block">
+      <div class="mono key">Overview</div>
+      <p class="overview">{p.description}</p>
+    </div>
+
+    <div class="block">
+      <div class="mono key">Results</div>
+      <div class="metrics">
+        {
+          p.metrics.map((m) => (
+            <div>
+              <div class="value">{m.value}</div>
+              <div class="mono caption">{m.label}</div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    {
+      p.demo && (
+        <div class="block">
+          <div class="mono key">Try the model</div>
+          <div class="val"><StoryGenerator client:visible /></div>
+        </div>
+      )
+    }
+
+    {
+      p.specs && (
+        <div class="block">
+          <div class="mono key">Model</div>
+          <div class="val rows specs">
+            {
+              p.specs.map((s) => (
+                <div class="spec">
+                  <div class="mono">{s.label}</div>
+                  <div class="spec-value">{s.value}</div>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      )
+    }
+
+    {
+      p.pipeline && (
+        <div class="block">
+          <div class="mono key">Approach</div>
+          <div class="val flow">
+            {
+              p.pipeline.map((step, i) => (
+                <div>
+                  <div>{step}</div>
+                  {i < p.pipeline!.length - 1 && <div class="arrow">↓</div>}
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      )
+    }
+
+    {
+      p.experiments && (
+        <div class="block">
+          <div class="mono key">Experiments</div>
+          <div class="val rows exps">
+            {p.experiments.map((x) => <div class="exp">{x}</div>)}
+          </div>
+        </div>
+      )
+    }
+
+    <div class="block">
+      <div class="mono key">Stack</div>
+      <div class="val chips">{p.tags.map((t) => <span class="chip">{t}</span>)}</div>
+    </div>
+
+    <div class="block">
+      <div class="mono key">Notes</div>
+      <div class="val prose"><Content /></div>
+    </div>
+
+    <nav class="pager">
+      <a class="mono" href="/projects">← All projects</a>
+      <a class="mono next" href={`/projects/${next.slug}`}>Next: {next.data.title} →</a>
+    </nav>
+  </article>
+</Base>
+
+<style>
+  article { padding: clamp(36px, 6vw, 80px) var(--pad) clamp(56px, 8vw, 110px); }
+
+  .back { letter-spacing: 0.16em; font-size: 11.5px; }
+
+  header { margin-top: clamp(30px, 5vw, 64px); max-width: 24em; }
+
+  .eyebrow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    letter-spacing: 0.2em;
+  }
+
+  .badge { padding: 4px 9px; border: 1px solid var(--ink); color: var(--ink); }
+
+  h1 {
+    margin: 18px 0 0;
+    font-size: clamp(34px, 6vw, 76px);
+    line-height: 0.96;
+    letter-spacing: -0.03em;
+    font-weight: 500;
+    text-wrap: balance;
+  }
+
+  .sub {
+    margin: 20px 0 0;
+    font-size: clamp(17px, 2vw, 24px);
+    font-weight: 300;
+    line-height: 1.34;
+    color: oklch(0.42 0.004 100);
+  }
+
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: clamp(26px, 3.5vw, 42px); }
+
+  .block {
+    margin-top: clamp(34px, 4vw, 56px);
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(20px, 5vw, 72px);
+    border-top: 1px solid var(--rule);
+    padding-top: clamp(26px, 3vw, 40px);
+  }
+
+  .key { flex: 1 1 140px; letter-spacing: 0.18em; }
+  .val { flex: 3 1 300px; min-width: 0; }
+
+  .overview {
+    flex: 3 1 300px;
+    min-width: 0;
+    margin: 0;
+    font-size: clamp(17px, 1.8vw, 22px);
+    line-height: 1.58;
+    font-weight: 300;
+    color: oklch(0.26 0.004 100);
+    max-width: 34em;
+    text-wrap: pretty;
+  }
+
+  .metrics {
+    flex: 3 1 300px;
+    min-width: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+  }
+
+  .metrics > div { background: var(--paper); padding: 22px 20px; }
+  .metrics .value { font-family: var(--mono); font-size: clamp(20px, 2.4vw, 30px); letter-spacing: -0.02em; }
+  .metrics .caption { margin-top: 8px; }
+
+  .specs { max-width: 40em; }
+
+  .spec {
+    padding: 14px 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+    gap: 20px;
+    align-items: baseline;
+  }
+
+  .spec .mono { letter-spacing: 0.14em; font-size: 11px; }
+  .spec-value { font-family: var(--mono); font-size: 13.5px; }
+
+  .flow {
+    font-family: var(--mono);
+    font-size: clamp(12px, 1.3vw, 15px);
+    line-height: 2.1;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .flow .arrow { color: oklch(0.75 0.003 100); }
+
+  .exps { max-width: 34em; }
+  .exp { padding: 16px 0; font-family: var(--mono); font-size: 13px; letter-spacing: 0.04em; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; align-self: flex-start; }
+
+  .prose { font-size: 16.5px; line-height: 1.7; font-weight: 300; max-width: 34em; text-wrap: pretty; }
+  .prose :global(p) { margin: 0 0 1em; }
+
+  .pager {
+    margin-top: clamp(48px, 7vw, 96px);
+    border-top: 1px solid var(--rule);
+    padding-top: clamp(22px, 3vw, 34px);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .pager .mono { letter-spacing: 0.16em; font-size: 11.5px; }
+  .pager .next { color: var(--ink); }
+</style>

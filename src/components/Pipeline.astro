@@ -1,0 +1,73 @@
+---
+import { stages } from "../data/site";
+---
+
+<div data-pipeline>
+  <div class="stage">
+    <div class="mono label">How I work</div>
+    <div class="steps">
+      {
+        stages.map((name, i) => (
+          <div class="step" data-stage={i}>
+            <span class="num">{String(i + 1).padStart(2, "0")}</span>
+            <span class="dot" data-stage-dot></span>
+            <span class="name">{name}</span>
+          </div>
+        ))
+      }
+    </div>
+    <div class="mono outro">From data → models → intelligent systems.</div>
+  </div>
+</div>
+
+<style>
+  [data-pipeline] { position: relative; height: 260vh; }
+
+  .stage {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: clamp(18px, 3vh, 34px);
+    padding: 0 var(--pad);
+    background: var(--paper);
+  }
+
+  .label { letter-spacing: 0.2em; }
+
+  .steps { display: grid; gap: clamp(10px, 1.8vh, 20px); }
+
+  .step {
+    display: flex;
+    align-items: center;
+    gap: clamp(14px, 2vw, 26px);
+    opacity: 0.22;
+    transition: opacity 0.4s ease;
+  }
+
+  .step.is-active { opacity: 1; }
+
+  .num { font-family: var(--mono); font-size: 11px; color: var(--ink-3); width: 22px; }
+
+  .dot {
+    flex: 0 0 9px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    border: 1px solid var(--ink);
+    background: transparent;
+    transition: background 0.4s ease;
+  }
+
+  .step.is-active .dot { background: var(--ink); }
+
+  .name { font-size: clamp(22px, 4.2vw, 54px); font-weight: 500; letter-spacing: -0.03em; line-height: 1.05; }
+
+  .outro {
+    font-size: clamp(11px, 1.3vw, 14px);
+    letter-spacing: 0.12em;
+    color: var(--ink-2);
+  }
+</style>

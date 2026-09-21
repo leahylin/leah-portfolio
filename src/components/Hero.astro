@@ -1,0 +1,95 @@
+---
+import { site } from "../data/site";
+---
+
+<section class="hero">
+  <div class="copy" data-hero>
+    <div class="mono eyebrow">Portfolio · 2026</div>
+    <h1>{site.role}</h1>
+    <p class="tagline">{site.tagline}</p>
+    <div class="edu">
+      {site.education.map((line) => <div>{line}</div>)}
+    </div>
+    <div class="actions">
+      <a class="btn btn--solid" href="/#work">View Projects</a>
+      <a class="btn" href={site.links.github}>GitHub ↗</a>
+      <a class="btn" href={site.links.resume}>Resume ↗</a>
+    </div>
+  </div>
+
+  <aside data-hero-aside>
+    <div class="on">LLMs</div>
+    <div class="off">↓</div>
+    <div class="on">Generative Models</div>
+    <div class="off">↓</div>
+    <div class="on">Planning</div>
+    <div class="off">↓</div>
+    <div class="on">Intelligent Systems</div>
+  </aside>
+</section>
+
+<style>
+  .hero {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(32px, 6vw, 80px);
+    align-items: flex-end;
+    min-height: 76vh;
+    padding: clamp(40px, 9vw, 120px) var(--pad) clamp(48px, 8vw, 110px);
+  }
+
+  .copy { flex: 3 1 400px; min-width: 0; will-change: transform, opacity; }
+
+  .eyebrow { letter-spacing: 0.2em; font-size: 11.5px; margin-bottom: 26px; }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(42px, 8.4vw, 116px);
+    line-height: 0.92;
+    letter-spacing: -0.035em;
+    font-weight: 500;
+    text-wrap: balance;
+  }
+
+  .tagline {
+    margin: clamp(24px, 3vw, 38px) 0 0;
+    font-size: clamp(19px, 2.3vw, 30px);
+    line-height: 1.32;
+    font-weight: 300;
+    letter-spacing: -0.015em;
+    max-width: 19em;
+    color: oklch(0.3 0.004 100);
+    text-wrap: pretty;
+  }
+
+  .edu {
+    margin-top: clamp(26px, 3vw, 40px);
+    font-family: var(--mono);
+    font-size: 12.5px;
+    line-height: 1.9;
+    color: var(--ink-2);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: clamp(30px, 4vw, 46px);
+  }
+
+  aside {
+    flex: 1 1 170px;
+    min-width: 0;
+    will-change: transform;
+    font-family: var(--mono);
+    font-size: clamp(10.5px, 1.1vw, 13px);
+    line-height: 2.1;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border-left: 1px solid var(--rule);
+    padding-left: clamp(16px, 2vw, 28px);
+  }
+
+  .on { color: var(--ink); }
+  .off { color: oklch(0.72 0.003 100); }
+</style>
