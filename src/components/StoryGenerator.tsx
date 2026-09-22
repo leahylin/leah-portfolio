@@ -4,7 +4,7 @@ const API = import.meta.env.PUBLIC_API_URL ?? "";
 
 export default function StoryGenerator() {
   const [prompt, setPrompt] = useState("");
-  const [temperature, setTemperature] = useState(0.8);
+  const [temperature, setTemperature] = useState(0.6);
   const [output, setOutput] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -48,7 +48,7 @@ export default function StoryGenerator() {
     <div className="demo">
       <p className="intro">
         Give the model a story beginning and see what it generates. Runs on the
-        deployed checkpoint, not in your browser.
+        deployed checkpoint.
       </p>
 
       <label className="mono" htmlFor="prompt">Prompt</label>
@@ -59,7 +59,6 @@ export default function StoryGenerator() {
         placeholder="A robot found a mysterious door..."
         onChange={(e) => setPrompt(e.target.value)}
       />
-      <div className="count">{prompt.length} / 500</div>
 
       <div className="temp">
         <span className="mono">Temperature</span>

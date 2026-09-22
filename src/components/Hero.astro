@@ -5,7 +5,8 @@ import { site } from "../data/site";
 <section class="hero">
   <div class="copy" data-hero>
     <div class="mono eyebrow">Portfolio · 2026</div>
-    <h1>{site.role}</h1>
+    <h1>{site.name}</h1>
+    <p class="role">{site.role}</p>
     <p class="tagline">{site.tagline}</p>
     <div class="edu">
       {site.education.map((line) => <div>{line}</div>)}
@@ -51,8 +52,17 @@ import { site } from "../data/site";
     text-wrap: balance;
   }
 
+  .role {
+    margin: clamp(14px, 1.8vw, 20px) 0 0;
+    font-family: var(--mono);
+    font-size: clamp(13px, 1.4vw, 16px);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+  }
+
   .tagline {
-    margin: clamp(24px, 3vw, 38px) 0 0;
+    margin: clamp(18px, 2.4vw, 30px) 0 0;
     font-size: clamp(19px, 2.3vw, 30px);
     line-height: 1.32;
     font-weight: 300;

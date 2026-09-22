@@ -8,7 +8,7 @@
   --rule-2: oklch(0.78 0.003 100);
   --sans: Geist, Helvetica, -apple-system, sans-serif;
   --mono: "Geist Mono", ui-monospace, monospace;
-  --pad: clamp(20px, 5vw, 64px);
+  --pad: max(clamp(20px, 5vw, 64px), calc((100% - 1100px) / 2));
 }
 
 * { box-sizing: border-box; }

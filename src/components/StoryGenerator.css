@@ -11,7 +11,7 @@
 
 .demo textarea {
   width: 100%;
-  min-height: 120px;
+  min-height: 80px;
   resize: vertical;
   padding: 16px;
   border: 1px solid var(--rule-2);
@@ -23,7 +23,6 @@
   font-weight: 300;
 }
 
-.demo .count { margin-top: 8px; font-family: var(--mono); font-size: 11px; color: var(--ink-3); }
 
 .demo .temp {
   display: flex;
